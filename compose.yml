@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=tank-stack-news
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - tank-stack-news-network
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres-data:
+
+networks:
+  tank-stack-news-network:
+    driver: bridge
