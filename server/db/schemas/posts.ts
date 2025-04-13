@@ -1,6 +1,8 @@
 import { relations } from "drizzle-orm";
 import { pgTable, serial, integer, text, timestamp } from "drizzle-orm/pg-core";
 import { userTable } from "./auth";
+import {  postUpvotesTable } from "./upvotes";
+import { commentsTable } from "./comments";
 
 export const postsTable = pgTable("posts", {
   id: serial("id").primaryKey(),
@@ -16,10 +18,14 @@ export const postsTable = pgTable("posts", {
 });
 
 
-export const postRelations = relations(postsTable,({one})=>({
+export const postRelations = relations(postsTable,({one,many})=>({
     author: one(userTable,{
         fields:[postsTable.userId],
         references:[userTable.id],
         relationName: "author",
-    })
+    }),
+    postsUpvotesTable: many(postUpvotesTable,{
+      relationName: "postUpvotes"
+    }),
+    comments: many(commentsTable)
 }))
