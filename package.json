@@ -10,6 +10,7 @@
     "@hono/zod-validator": "^0.4.3",
     "@lucia-auth/adapter-drizzle": "^1.1.0",
     "drizzle-orm": "^0.41.0",
+    "drizzle-zod": "^0.7.1",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-drizzle": "^0.2.3",
     "hono": "^4.7.5",

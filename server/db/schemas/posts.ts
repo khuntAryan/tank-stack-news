@@ -3,6 +3,8 @@ import { pgTable, serial, integer, text, timestamp } from "drizzle-orm/pg-core";
 import { userTable } from "./auth";
 import {  postUpvotesTable } from "./upvotes";
 import { commentsTable } from "./comments";
+import { createInsertSchema } from "drizzle-zod";
+import {z} from "zod";
 
 export const postsTable = pgTable("posts", {
   id: serial("id").primaryKey(),
@@ -16,6 +18,13 @@ export const postsTable = pgTable("posts", {
     withTimezone: true,
   }).defaultNow().notNull(),
 });
+
+
+export const insertPostSchema = createInsertSchema(postsTable,{
+  title: z.string().min(3,{message:"Title must be 3 chars"}),
+  url: z.string().trim().url({message:"url must be valid url"}).optional().or(z.literal("")),
+  content: z.string().optional()
+})
 
 
 export const postRelations = relations(postsTable,({one,many})=>({
